@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="inherit_product_category_form_view" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='product_count']" position="replace">
+                </xpath>
+                <xpath expr="//group[@name='first']" position="replace">
+                    <group>
+                        <group>
+                            <field name="parent_id" class="oe_inline"/>
+                        </group>
+                        <group>
+                            <field name="type" required="1"/>
+                        </group>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="inherit_product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='sales']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//div[@name='options']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//label[@for='standard_price']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//div[@name='standard_price_uom']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//div[@name='standard_price_uom']" position="after">
+                    <field name="interior"/>
+                    <field name="exterior"/>
+                    <field name="outdoor"/>
+                </xpath>
+                <xpath expr="//field[@name='categ_id']" position="attributes">
+                    <attribute name="widget">many2many_tags</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_template_action_master" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"search_default_consumable": 1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new product.
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
+        <menuitem id="products_menu_root" name="Products" sequence="-1"/>
+        <menuitem id="products_menu_categ" parent="products_menu_root" name="Products" sequence="1"/>
+        <menuitem id="menu_product_menu" name="Products" action="product_template_action_master"
+                  parent="products_menu_categ" sequence="1"/>
+        <menuitem id="product_product_variant_menu" name="Product Variants" action="product.product_normal_action"
+                  parent="products_menu_categ" sequence="2"/>
+
+
+        <menuitem id="products_settings_menu_categ" parent="products_menu_root" name="Settings" sequence="2"/>
+        <menuitem action="product.product_category_action_form" id="menu_product_category_inventory"
+                  parent="products_settings_menu_categ" sequence="1"/>
+        <menuitem action="product.attribute_action" id="menu_product_attribute_action"
+                  parent="products_settings_menu_categ" sequence="2"/>
+        <menuitem action="product.variants_action" id="menu_product_variants_action"
+                  parent="products_settings_menu_categ" sequence="3"/>
+
+
+    </data>
+</odoo>
