@@ -57,6 +57,7 @@ class Product(models.Model):
     outdoor = fields.Boolean(string="", compute=_compute_is_outdoor, store=True)
 
 
+
 class ProductCategory(models.Model):
     _name = "product.category"
     _inherit = "product.category"
@@ -64,3 +65,5 @@ class ProductCategory(models.Model):
     type = fields.Selection(string="", selection=[('interior', 'Interior'), ('exterior', 'Exterior'),
                                                   ('landscape_and_outdoor', 'Landscape & Outdoor'), ],
                             default='interior', required=False, )
+    uom_id = fields.Many2one(comodel_name="product.uom", string="Unit Of Measure", required=False, )
+    product_ids = fields.Many2many(comodel_name="product.product", relation="categ_product_rel", string="Products", )

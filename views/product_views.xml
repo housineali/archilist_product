@@ -17,8 +17,11 @@
                         </group>
                         <group>
                             <field name="type" required="1"/>
+                            <field name="uom_id" required="1" options="{'no_create': True}"/>
+                            <field name="product_ids" required="1" options="{'no_create': True}" widget="many2many_tags"/>
                         </group>
                     </group>
+
                 </xpath>
 
             </field>
