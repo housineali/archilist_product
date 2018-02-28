@@ -62,8 +62,19 @@ class ProductCategory(models.Model):
     _name = "product.category"
     _inherit = "product.category"
 
-    type = fields.Selection(string="", selection=[('interior', 'Interior'), ('exterior', 'Exterior'),
+    @api.one
+    def _compute_all_product_ids(self):
+        products= self.env['product.product'].search([])
+        ids=[]
+        for product in products:
+            if self.id in product.categ_id.mapped('id'):
+                ids.append(product.id)
+        self.all_product_ids=self.env['product.product'].search([('id','in',ids)])
+
+
+    type = fields.Selection(string="Type", selection=[('interior', 'Interior'), ('exterior', 'Exterior'),
                                                   ('landscape_and_outdoor', 'Landscape & Outdoor'), ],
                             default='interior', required=False, )
     uom_id = fields.Many2one(comodel_name="product.uom", string="Unit Of Measure", required=False, )
     product_ids = fields.Many2many(comodel_name="product.product", relation="categ_product_rel", string="Products", )
+    all_product_ids = fields.Many2many(comodel_name="product.product", relation="all_categ_product_rel", compute=_compute_all_product_ids,string="Products", store=False)

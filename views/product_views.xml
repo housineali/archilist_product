@@ -16,11 +16,13 @@
                             <field name="parent_id" class="oe_inline"/>
                         </group>
                         <group>
-                            <field name="type" required="1"/>
-                            <field name="uom_id" required="1" options="{'no_create': True}"/>
-                            <field name="product_ids" required="1" options="{'no_create': True}" widget="many2many_tags"/>
+                            <field name="type"/>
+                            <field name="uom_id" options="{'no_create': True}"/>
                         </group>
                     </group>
+                    <field name="product_ids" string="Default Products" domain="[('id','in',all_product_ids)]"/>
+                    <field name="all_product_ids" string="Default Products" invisible="True"/>
+
 
                 </xpath>
 
