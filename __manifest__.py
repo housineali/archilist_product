@@ -14,7 +14,7 @@ Key Features:
 * Product Variants.
 """,
     'author': 'Binary Labs LLC & Mahmoud Elmenshawy',
-    'website': 'https://www.linkedin.com/in/mahmoudelmenshawy/',
+    'website': '',
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/module/module_data.xml
