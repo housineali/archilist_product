@@ -55,6 +55,14 @@ class Product(models.Model):
     interior = fields.Boolean(string="", compute=_compute_is_interior, store=True)
     exterior = fields.Boolean(string="", compute=_compute_is_exterior, store=True)
     outdoor = fields.Boolean(string="", compute=_compute_is_outdoor, store=True)
+    contractor_id = fields.Many2one(comodel_name="res.users", string="", required=False, )
+
+
+    @api.model
+    def create(self,vals):
+        vals['contractor_id']=self.env.uid
+        res = super(Product, self).create(vals)
+        return res
 
 
 
